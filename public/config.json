@@ -1,0 +1,4 @@
+{
+    "url_ws_pegass": "localhost:8080/v1",
+    "url_ws_google": "192.158.30.38:5000"
+}
