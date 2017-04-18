@@ -1,4 +1,5 @@
 {
-    "url_ws_pegass": "localhost:8080/v1",
-    "url_ws_google": "192.158.30.38:5000"
+    "url_ws_pegass": "localhost:9292/v1",
+    "url_ws_google": "localhost:5000",
+    "version": "VERSION_TAG"
 }

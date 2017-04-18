@@ -13,12 +13,34 @@ import Home from './pages/Home';
 import Test from './pages/Test';
 import NoMatch from './pages/NoMatch';
 import Benevoles from './pages/benevoles/Benevoles';
+import Competences from './pages/benevoles/Competences';
+import Recyclages from './pages/recyclages/Recyclages';
+import StatsFCs from './pages/stats/StatsFCs';
+import StatsFormations from './pages/stats/StatsFormations';
+import StatsMaraudes from './pages/stats/StatsMaraudes';
+import StatsMLs from './pages/stats/StatsMLs';
+import StatsReseaux from './pages/stats/StatsReseaux';
+import SessionsInfo from './pages/google/SessionsInfo';
+import SessionCreate from './pages/google/SessionCreate';
+import SessionsManagements from './pages/google/SessionsManagements';
 
 import 'whatwg-fetch';
 
 
 import Header from './components/Header';
 import Footer from './components/Footer';
+
+const RecyclagesUL = (props) => {
+      return (
+        <Recyclages geoType='ul' {...props} />
+      );
+    }
+
+const RecyclagesDD = (props) => {
+      return (
+        <Recyclages geoType='dd' {...props} />
+      );
+    }
 
 ReactDOM.render(
   <Router history={history}>
@@ -28,6 +50,17 @@ ReactDOM.render(
         <Route exact path="/" component={Home} />
         <Route path="/test" component={Test} />
         <Route path="/benevoles" component={Benevoles} />
+        <Route path="/competences" component={Competences} />
+        <Route path="/recyclageul" render={RecyclagesUL} />
+        <Route path="/recyclagedd" render={RecyclagesDD} />
+        <Route path="/statsfcs" component={StatsFCs} />
+        <Route path="/statsformation" component={StatsFormations} />
+        <Route path="/statsmaraudes" component={StatsMaraudes} />
+        <Route path="/statsmls" component={StatsMLs} />
+        <Route path="/statsreseaux" component={StatsReseaux} />
+        <Route path="/sessionsinfo" component={SessionsInfo} />
+        <Route path="/sessioncreate" component={SessionCreate} />
+        <Route path="/sessionmanagements" component={SessionsManagements} />
         <Route component={NoMatch}/>
       </Switch>
       <Footer />

@@ -6,6 +6,21 @@ import ConnectStore from '../stores/ConnectStore';
 export default class Benevole extends React.Component {
     constructor(props) {
         super();
+
+        var email, portable;
+
+        if (props.email) {
+            email = props.email;
+        } else {
+            email = '';
+        }
+
+        if (props.portable) {
+            portable = props.portable;
+        } else {
+            portable = '';
+        }
+
         this.state = {
             id: props.id,
             prenom: props.prenom,
@@ -13,6 +28,10 @@ export default class Benevole extends React.Component {
             allow_email: props.allow_email,
             allow_external: props.allow_external,
             mailMoyenComId: props.mailMoyenComId,
+            email,
+            portable,
+            date: props.date,
+            admin: props.admin,
         }
     }
 
@@ -23,7 +42,7 @@ export default class Benevole extends React.Component {
     }
 
     changeEmail(event) {
-        if(ConnectStore.isPegassAdmin()){
+        if (ConnectStore.isPegassAdmin()) {
             var data_struct = {
                 inscriptionsExternes: this.state.allow_external,
                 contactParMail: !this.state.allow_email,
@@ -39,7 +58,7 @@ export default class Benevole extends React.Component {
     }
 
     changeExternal(event) {
-        if(ConnectStore.isPegassAdmin()){
+        if (ConnectStore.isPegassAdmin()) {
             var data_struct = {
                 inscriptionsExternes: !this.state.allow_external,
                 contactParMail: this.state.allow_email,
@@ -62,21 +81,42 @@ export default class Benevole extends React.Component {
             allow_email: nextProps.allow_email,
             allow_external: nextProps.allow_external,
         })
+
+        if (nextProps.email) {
+            this.setState({
+                email: nextProps.email,
+            })
+        }
+
+        if (nextProps.portable) {
+            this.setState({
+                portable: nextProps.portable,
+            })
+        }
     }
 
     render() {
+
         let CheckEmail = null;
-        if (this.state.allow_email) {
-            CheckEmail = <i name="email" className="fa fa-check" style={{ 'color': 'green' }} onClick={this.changeEmail.bind(this)}></i>
-        } else {
-            CheckEmail = <i name="email" className="fa fa-times" style={{ 'color': 'red' }} onClick={this.changeEmail.bind(this)}></i>
+        let CheckExt = null;
+
+        if (this.state.admin) {
+            if (this.state.allow_email) {
+                CheckEmail = <td><i name="email" className="fa fa-check" style={{ 'color': 'green' }} onClick={this.changeEmail.bind(this)}></i></td>
+            } else {
+                CheckEmail = <td><i name="email" className="fa fa-times" style={{ 'color': 'red' }} onClick={this.changeEmail.bind(this)}></i></td>
+            }
+
+            if (this.state.allow_external) {
+                CheckExt = <td><i className="fa fa-check" style={{ 'color': 'green' }} onClick={this.changeExternal.bind(this)}></i></td>
+            } else {
+                CheckExt = <td><i className="fa fa-times" style={{ 'color': 'red' }} onClick={this.changeExternal.bind(this)}></i></td>
+            }
         }
 
-        let CheckExt = null;
-        if (this.state.allow_external) {
-            CheckExt = <i className="fa fa-check" style={{ 'color': 'green' }} onClick={this.changeExternal.bind(this)}></i>
-        } else {
-            CheckExt = <i className="fa fa-times" style={{ 'color': 'red' }} onClick={this.changeExternal.bind(this)}></i>
+        let DateElement = null;
+        if(this.state.date){
+            DateElement = <td>{this.state.date}</td>
         }
 
 
@@ -85,9 +125,12 @@ export default class Benevole extends React.Component {
                 <td>{this.state.id}</td>
                 <td>{this.state.prenom}</td>
                 <td>{this.state.nom}</td>
-                <td>{CheckEmail}</td>
-                <td>{CheckExt}</td>
+                {CheckEmail}
+                {CheckExt}
+                <td>{this.state.email}</td>
+                <td>{this.state.portable}</td>
+                {DateElement}
             </tr>
-    );
+        );
     }
 }

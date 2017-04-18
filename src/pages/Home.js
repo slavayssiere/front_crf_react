@@ -8,10 +8,10 @@ export default class Home extends React.Component {
         super();
         
         this.state = {
-            connectPegass: false,
-            connectGoogle: false,
-            adresse: '',
-            accidentContact: '',
+            connectPegass: ConnectStore.isPegassConnected(),
+            connectGoogle: ConnectStore.isGoogleConnected(),
+            adresse: ConnectStore.getAdresse(),
+            accidentContact: ConnectStore.getAccidentContact(),
         }
         this.getData = this.getData.bind(this);
         this.getDataGaia = this.getDataGaia.bind(this);

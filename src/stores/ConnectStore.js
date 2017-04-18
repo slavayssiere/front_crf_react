@@ -10,6 +10,36 @@ class ConnectStore extends EventEmitter {
         this.google = {
             connect: false,
         }
+        this.accessToken= '';
+        this.checkStatus = this.checkStatus.bind(this);
+        this.connectToAll = this.connectToAll.bind(this);
+        AppStore.on("config_receive", this.connectToAll);
+    }
+
+    connectToAll() {
+        var token = sessionStorage.getItem("GoogleToken");
+        var login = sessionStorage.getItem("PegassLogin");
+        var password = sessionStorage.getItem("PegassPassword");
+        var accesstoken = sessionStorage.getItem("AccessToken");
+
+        if (token) {
+            this.setAccessToken(accesstoken);
+            this.connectToGoogle(token);
+        }
+
+        if (login && password) {
+            this.connectToPegass(login, password);
+        }
+    }
+
+    checkStatus(response) {
+        if (response.status >= 200 && response.status < 300) {
+            return response
+        } else {
+            var error = new Error(response.statusText)
+            error.response = response
+            throw error
+        }
     }
 
     connectToGoogle(token) {
@@ -18,18 +48,32 @@ class ConnectStore extends EventEmitter {
             headers: {
                 'Content-Type': 'application/json',
             }
-        }).then(response => response.json())
+        }).then(this.checkStatus)
+            .then(response => response.json())
             .then(json => {
-                console.log(json);
                 this.google = json;
                 this.google.token = token;
                 this.google.connect = true;
+                sessionStorage.setItem("GoogleToken", token);
 
                 this.emit("connect_google");
+            })
+            .catch(function (error) {
+                console.log('request failed', error);
+                sessionStorage.removeItem("GoogleToken");
+                if(this.google){
+                    this.google.connect = false;
+                }
             });
     }
 
     connectToPegass(login, password) {
+
+        this.emit("connecting_pegass");
+
+        sessionStorage.setItem("PegassLogin", login);
+        sessionStorage.setItem("PegassPassword", password);
+
         fetch('http://' + AppStore.getPegassAPI() + '/connect', {
             method: "GET",
             headers: {
@@ -57,6 +101,14 @@ class ConnectStore extends EventEmitter {
             });
     }
 
+    setAccessToken(accessToken){
+        sessionStorage.setItem("AccessToken", accessToken);
+        this.accessToken = accessToken;
+    }
+
+    getAccessToken(){
+        return this.accessToken;
+    }
 
     isPegassConnected() {
         return this.pegass.connect;
@@ -70,11 +122,11 @@ class ConnectStore extends EventEmitter {
         return this.google.connect;
     }
 
-    getNivol(){
+    getNivol() {
         return this.pegass.utilisateur.id;
     }
 
-    getGaiaId(){
+    getGaiaId() {
         return this.pegass.utilisateur.gaia_id;
     }
 
@@ -103,14 +155,22 @@ class ConnectStore extends EventEmitter {
     }
 
     getAdresse() {
-        return this.gaia.adresseLine1 + ' ' + this.gaia.adresseLine2 + ' ' + this.gaia.adresseLine3;
+        if (this.gaia) {
+            return this.gaia.adresseLine1 + ' ' + this.gaia.adresseLine2 + ' ' + this.gaia.adresseLine3;
+        } else {
+            return '';
+        }
     }
 
     getAccidentContact() {
-        return this.gaia.persContPrin;
+        if (this.gaia) {
+            return this.gaia.persContPrin;
+        } else {
+            return '';
+        }
     }
 
-    getStructure(){
+    getStructure() {
         return this.pegass.structuresAdministrees[0].libelle;
     }
 
@@ -121,7 +181,8 @@ class ConnectStore extends EventEmitter {
             'LastMRH-Session': this.pegass.LastMRH_Session,
             'MRHSession': this.pegass.MRHSession,
             'SAML': this.pegass.SAML,
-            'JSESSIONID': this.pegass.JSESSIONID
+            'JSESSIONID': this.pegass.JSESSIONID,
+            'Authorization': 'Bearer '+this.getAccessToken(), 
         }
     }
 }

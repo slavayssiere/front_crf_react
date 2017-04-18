@@ -10,34 +10,44 @@ export default class PegassConnect extends React.Component {
         super();
 
         this.state = {
-            nivol: 'nivol',
+            nivol: 'login pegass',
             password: 'password',
             connect: false,
+            loading: false,
         }
-
         this.getData = this.getData.bind(this);
+        this.getLoading = this.getLoading.bind(this);
     }
 
     componentWillMount() {
         ConnectStore.on("connect_pegass", this.getData);
+        ConnectStore.on("connecting_pegass", this.getLoading);
     }
 
     componentWillUnmount() {
         ConnectStore.removeListener("connect_pegass", this.getData);
+        ConnectStore.removeListener("connecting_pegass", this.getLoading);
     }
 
-    getData(){
+    getLoading() {
+        this.setState({
+            loading: true,
+        })
+    }
+
+    getData() {
         this.setState({
             connect: true,
+            loading: false,
         });
     }
 
-    connect(){
+    connect() {
         console.log("connect with", this.state.nivol, this.state.password)
         ConnectStore.connectToPegass(this.state.nivol, this.state.password);
     }
 
-    handleChange(event){
+    handleChange(event) {
         var target = event.target;
         var name = target.name;
         var value = target.value;
@@ -48,21 +58,25 @@ export default class PegassConnect extends React.Component {
     }
 
     render() {
-        if(ConnectStore.isPegassConnected()){
-            return (
-                <div>
-                    Welcome, {ConnectStore.getUsername()}. ({ConnectStore.getRole()})
+        if (this.state.loading) {
+            return <div>Connexion en cours...</div>;
+        } else {
+            if (ConnectStore.isPegassConnected()) {
+                return (
+                    <div>
+                        Bienvenue, {ConnectStore.getUsername()}. ({ConnectStore.getRole()})
                 </div>
-            );
-        }
-        else {
-            return (
-                <div>
-                    <FormControl name="nivol" bsSize="small" type="input" placeholder={this.state.nivol} onChange={this.handleChange.bind(this)} />
-                    <FormControl name="password" bsSize="small" type="password" placeholder={this.state.password} onChange={this.handleChange.bind(this)}/>
-                    <Button bsSize="small" type="submit" onClick={this.connect.bind(this)}>Connect to Pegass</Button>
-                </div>
-            );
+                );
+            }
+            else {
+                return (
+                    <div>
+                        <FormControl name="nivol" bsSize="small" type="input" placeholder={this.state.nivol} onChange={this.handleChange.bind(this)} />
+                        <FormControl name="password" bsSize="small" type="password" placeholder={this.state.password} onChange={this.handleChange.bind(this)} />
+                        <Button bsSize="small" type="submit" onClick={this.connect.bind(this)}>Connect to Pegass</Button>
+                    </div>
+                );
+            }
         }
     }
 }

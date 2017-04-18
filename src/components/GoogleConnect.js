@@ -40,6 +40,7 @@ export default class PegassConnect extends React.Component {
     }
 
     successResponseGoogle = (response) => {
+        ConnectStore.setAccessToken(response.accessToken);
         ConnectStore.connectToGoogle(response.tokenId);
     }
 
@@ -64,13 +65,14 @@ export default class PegassConnect extends React.Component {
             if(this.state.teamFormat){
                 return (
                     <GoogleLogin
-                        clientId="1037173200559-4ddejjtnncjtjdmobipmrg7gbsammpfu.apps.googleusercontent.com"
+                        clientId="794502709562-bgo3mjvn9jhpifvd0no50vebts8j9050.apps.googleusercontent.com"
                         onSuccess={this.successResponseGoogle}
                         onFailure={this.failResponseGoogle}
                         onRequest={this.loading}
+                        scope="profile email https://mail.google.com/ https://www.googleapis.com/auth/gmail.compose https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/documents https://www.googleapis.com/auth/drive.scripts https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/script.external_request"
                         className="btn btn-sm btn-default">
                         Connect to gmail
-                                </GoogleLogin>
+                    </GoogleLogin>
                 );
             } else {
                 return null;
