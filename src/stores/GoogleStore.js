@@ -109,11 +109,6 @@ class GoogleStore extends EventEmitter {
     }
 
     sendComplete(dataSession, emailData) {
-        var google_id = dataSession.google_id;
-
-        console.log("dataSession", dataSession);
-        console.log("emailData", emailData);
-
         fetch('http://' + AppStore.getGoogleAPI() + '/api/sheets/complete?token=' + ConnectStore.getAccessToken(), {
             method: "POST",
             headers: ConnectStore.getHeaders(),
