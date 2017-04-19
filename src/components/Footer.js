@@ -24,7 +24,6 @@ export default class Footer extends React.Component {
   }
 
   getData() {
-
     this.setState({
       pegass_version: AppStore.getPegassVersion(),
       google_version: AppStore.getGoogleVersion(),

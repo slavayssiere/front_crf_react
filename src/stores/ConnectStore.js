@@ -1,5 +1,6 @@
 import { EventEmitter } from "events";
 import AppStore from './AppStore';
+import ReactGA from 'react-ga';
 
 class ConnectStore extends EventEmitter {
     constructor() {
@@ -10,7 +11,7 @@ class ConnectStore extends EventEmitter {
         this.google = {
             connect: false,
         }
-        this.accessToken= '';
+        this.accessToken = '';
         this.checkStatus = this.checkStatus.bind(this);
         this.connectToAll = this.connectToAll.bind(this);
         AppStore.on("config_receive", this.connectToAll);
@@ -61,7 +62,7 @@ class ConnectStore extends EventEmitter {
             .catch(function (error) {
                 console.log('request failed', error);
                 sessionStorage.removeItem("GoogleToken");
-                if(this.google){
+                if (this.google) {
                     this.google.connect = false;
                 }
             });
@@ -87,6 +88,11 @@ class ConnectStore extends EventEmitter {
                 this.pegass.login = login;
                 this.pegass.connect = true;
                 this.emit("connect_pegass");
+                ReactGA.set({ userId: login });
+                ReactGA.event({
+                    category: 'User',
+                    action: 'Connect'
+                });
             });
     }
 
@@ -101,12 +107,12 @@ class ConnectStore extends EventEmitter {
             });
     }
 
-    setAccessToken(accessToken){
+    setAccessToken(accessToken) {
         sessionStorage.setItem("AccessToken", accessToken);
         this.accessToken = accessToken;
     }
 
-    getAccessToken(){
+    getAccessToken() {
         return this.accessToken;
     }
 
@@ -182,7 +188,7 @@ class ConnectStore extends EventEmitter {
             'MRHSession': this.pegass.MRHSession,
             'SAML': this.pegass.SAML,
             'JSESSIONID': this.pegass.JSESSIONID,
-            'Authorization': 'Bearer '+this.getAccessToken(), 
+            'Authorization': 'Bearer ' + this.getAccessToken(),
         }
     }
 }

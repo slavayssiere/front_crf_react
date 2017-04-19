@@ -2,6 +2,7 @@ import React from "react";
 import { Col, Table, Panel, Button, FormGroup, ControlLabel, FormControl } from "react-bootstrap";
 import CompetencesStore from '../../stores/CompetencesStore';
 import Benevole from '../../components/Benevole';
+import MDSpinner from 'react-md-spinner';
 
 export default class Recyclages extends React.Component {
     constructor(props) {
@@ -84,6 +85,11 @@ export default class Recyclages extends React.Component {
             return <option key={formation.id} value={formation.id}>{formation.libelle}</option>
         });
 
+        let Spinner = null;
+        if(this.state.loading){
+            Spinner = <p><MDSpinner /></p>;
+        }
+
         return (
             <Col xs={8} xsOffset={2}>
                 <div>
@@ -101,6 +107,7 @@ export default class Recyclages extends React.Component {
                     </FormControl>
                 </FormGroup>
                 <h2>A recycler cette année pour {this.state.geoType}</h2>
+                {Spinner}
                 <Table striped bordered condensed hover>
                     <thead>
                         <tr>
