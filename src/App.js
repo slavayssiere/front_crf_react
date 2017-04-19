@@ -40,10 +40,6 @@ class TrackPageView extends React.Component {
 }
 
 class App extends Component {
-  constructor() {
-    super();
-  }
-
   RecyclagesUL = (props) => {
     return (
       <Recyclages geoType='ul' {...props} />
