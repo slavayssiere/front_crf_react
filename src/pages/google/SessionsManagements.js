@@ -2,6 +2,7 @@ import React from "react";
 import { Col, Panel, Button } from "react-bootstrap";
 import GoogleStore from '../../stores/GoogleStore';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import MDSpinner from 'react-md-spinner';
 
 export default class SessionsManagements extends React.Component {
     constructor() {
@@ -109,8 +110,15 @@ export default class SessionsManagements extends React.Component {
     
 
     render() {
-        let ListEmails = null;
 
+        let Spinner = null;
+        if(this.state.loading){
+            Spinner = <p>Chargement...<MDSpinner /></p>;
+        } else {
+            Spinner = <p>Pas d'email à traiter</p>;
+        }
+
+        let ListEmails = null;
         if (this.state.emails) {
             ListEmails = <BootstrapTable data={this.state.emails}>
                 <TableHeaderColumn dataFormat={this.selectFormatter.bind(this)}>Selectionner</TableHeaderColumn>
@@ -125,6 +133,11 @@ export default class SessionsManagements extends React.Component {
                 <TableHeaderColumn dataField='nom'>Nom</TableHeaderColumn>
                 <TableHeaderColumn dataField='email'>Email</TableHeaderColumn>
             </BootstrapTable>;
+        }
+        else {
+            <Panel>
+                {Spinner}
+            </Panel>
         }
 
         let SessionSelect = null;

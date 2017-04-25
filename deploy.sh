@@ -22,6 +22,5 @@ rm -f config.tmp.json
 
 cd ..
 
-git tag -a $version -m "new version $version"
 git push
 

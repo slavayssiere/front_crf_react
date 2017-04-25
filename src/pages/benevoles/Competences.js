@@ -33,7 +33,7 @@ export default class Competences extends React.Component {
         CompetencesStore.removeListener("receive_benevoles_finish", this.finishLoad);
     }
 
-    finishLoad(){
+    finishLoad() {
         this.setState({
             loading: false,
         })
@@ -61,7 +61,7 @@ export default class Competences extends React.Component {
 
     }
 
-    handleSelectComp(event){
+    handleSelectComp(event) {
         this.setState({
             open: false,
             loading: true,
@@ -83,11 +83,11 @@ export default class Competences extends React.Component {
             return <option key={competence.id} value={competence.id}>{competence.libelle}</option>
         });
 
-         let ListNominations = this.state.nominations.map((nomination) => {
+        let ListNominations = this.state.nominations.map((nomination) => {
             return <option key={nomination.id} value={nomination.id}>{nomination.libelle}</option>
         });
 
-         let ListFormations = this.state.formations.map((formation) => {
+        let ListFormations = this.state.formations.map((formation) => {
             return <option key={formation.id} value={formation.id}>{formation.libelle}</option>
         });
 
