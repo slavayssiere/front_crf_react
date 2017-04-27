@@ -1,7 +1,8 @@
 #!/bin/bash
 
-npm run build 
+
 version=$(npm version patch)
+npm run build 
 
 cd build/
 
