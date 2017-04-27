@@ -24,13 +24,13 @@ export default class SessionCreate extends React.Component {
 
     componentWillMount() {
         GoogleStore.on("create_session", this.getData);
-        CompetencesStore.on("receive_benevoles_finish", this.getFormateurs);
+        CompetencesStore.on("receive_benevoles", this.getFormateurs);
         CompetencesStore.getBenevolesWithCompetence("FORM", "286");
     }
 
     componentWillUnmount() {
         GoogleStore.removeListener("create_session", this.getData);
-        CompetencesStore.removeListener("receive_benevoles_finish", this.getFormateurs);
+        CompetencesStore.removeListener("receive_benevoles", this.getFormateurs);
     }
 
     componentDidUpdate(){
