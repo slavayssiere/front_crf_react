@@ -39,6 +39,7 @@ class GoogleStore extends EventEmitter {
     }
 
     getEmailsList() {
+        var component = this;
         fetch('http://' + AppStore.getGoogleAPI() + '/api/sheets/getemails?token=' + ConnectStore.getAccessToken(), {
             method: "GET",
             headers: ConnectStore.getHeaders(),
@@ -50,8 +51,8 @@ class GoogleStore extends EventEmitter {
             })
             .catch(function (error) {
                 console.log('request failed', error);
-                this.emit("get_emails");
-            }, this);
+                component.emit("get_emails");
+            });
     }
 
     getDataSession(dateFormation, typeFormation) {
