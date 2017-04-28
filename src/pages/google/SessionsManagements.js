@@ -135,7 +135,7 @@ export default class SessionsManagements extends React.Component {
             </BootstrapTable>;
         }
         else {
-            <Panel>
+            ListEmails = <Panel>
                 {Spinner}
             </Panel>
         }
