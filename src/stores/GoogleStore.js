@@ -51,7 +51,7 @@ class GoogleStore extends EventEmitter {
             .catch(function (error) {
                 console.log('request failed', error);
                 this.emit("get_emails");
-            });
+            }, this);
     }
 
     getDataSession(dateFormation, typeFormation) {
