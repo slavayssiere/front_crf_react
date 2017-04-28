@@ -2,6 +2,7 @@ import React from "react";
 import { Col } from "react-bootstrap";
 import GoogleStore from '../../stores/GoogleStore';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import MDSpinner from 'react-md-spinner';
 
 export default class SessionsInfo extends React.Component {
     constructor() {
@@ -43,8 +44,13 @@ export default class SessionsInfo extends React.Component {
     }
 
     render() {
-        let ListSessions = null;
 
+        let Spinner = null;
+        if(this.state.loading){
+            Spinner = <p>Chargement...<MDSpinner /></p>;
+        }
+
+        let ListSessions = null;
         if (this.state.sessions) {
             ListSessions = <BootstrapTable data={this.state.sessions}>
                 <TableHeaderColumn dataField='formateur' isKey={true}>Formateur</TableHeaderColumn>
@@ -59,6 +65,7 @@ export default class SessionsInfo extends React.Component {
             <Col xs={8} xsOffset={2}>
 
                 <h2>Sessions</h2>
+                {Spinner}
                 {ListSessions}
             </Col>
         );

@@ -14,34 +14,30 @@ export default class Recyclages extends React.Component {
             listEmails: '',
             loading: false,
             geoType: props.geoType,
+            pages: 0,
+            nb_pages_receive: 0,
         }
         this.getFormations = this.getFormations.bind(this);
         this.getBen = this.getBen.bind(this);
-        this.finishLoad = this.finishLoad.bind(this);
+        this.getBenContact = this.getBenContact.bind(this);
     }
 
     componentWillMount() {
         CompetencesStore.on("get_competences", this.getFormations);
         CompetencesStore.on("receive_recyclage", this.getBen);
-        CompetencesStore.on("receive_recyclage_finish", this.finishLoad);
+        CompetencesStore.on("receive_recyclage_emails", this.getBenContact);
         CompetencesStore.getCompetences();
     }
 
     componentWillUnmount() {
         CompetencesStore.removeListener("get_competences", this.getFormations);
         CompetencesStore.removeListener("receive_recyclage", this.getBen);
-        CompetencesStore.removeListener("receive_recyclage_finish", this.finishLoad);
+        CompetencesStore.removeListener("receive_recyclage_emails", this.getBenContact);
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
             geoType: nextProps.geoType,
-        })
-    }
-
-    finishLoad() {
-        this.setState({
-            loading: false,
         })
     }
 
@@ -57,6 +53,20 @@ export default class Recyclages extends React.Component {
         })
     }
 
+    getBenContact(data) {
+        this.setState({
+            benevoles: CompetencesStore.getAllBenevoles(),
+            pages: data.pages,
+            nb_pages_receive: (this.state.nb_pages_receive + 1),
+        })
+
+        if (this.state.nb_pages_receive === this.state.pages) {
+            this.setState({
+                loading: false,
+            })
+        }
+    }
+
     getEmails() {
         this.setState({
             open: !this.state.open,
@@ -69,6 +79,8 @@ export default class Recyclages extends React.Component {
         this.setState({
             open: false,
             loading: true,
+            pages: 0,
+            nb_pages_receive: 0,
         })
         var target = event.target;
         var value = target.value;

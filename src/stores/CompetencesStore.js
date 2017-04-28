@@ -28,38 +28,41 @@ class CompetencesStore extends EventEmitter {
         return this.formations;
     }
 
-    getBenevolesARecycler(id, geoType){
+    getBenevolesARecycler(id, geoType) {
         var page = 0;
         this.benevoles = [];
 
         var geoTypeRequest = 'ul=' + ConnectStore.getUl();
         var requestPage = 'recyclages'
-        if(geoType === "dd"){
+        if (geoType === "dd") {
             geoTypeRequest = 'dd=75';
             requestPage = 'recyclagesdd'
         }
-        fetch('http://' + AppStore.getPegassAPI() + '/benevoles/'+requestPage+'/'+id+'?' + geoTypeRequest + '&page=' + page, {
+        fetch('http://' + AppStore.getPegassAPI() + '/benevoles/' + requestPage + '/' + id + '?' + geoTypeRequest + '&page=' + page, {
             method: "GET",
             headers: ConnectStore.getHeaders(),
         }).then(response => response.json())
             .then(json => {
                 this.benevoles = this.benevoles.concat(json.list);
                 this.getEmails(json);
-                this.emit("receive_recyclage");
+                this.emit("receive_recyclage", {
+                    pages: json.pages,
+                });
                 if (json.pages !== 0) {
                     for (page = 1; page !== json.pages; page++) {
-                        fetch('http://' + AppStore.getPegassAPI() + '/benevoles/'+requestPage+'/'+id+'?' + geoTypeRequest + '&page=' + page, {
+                        fetch('http://' + AppStore.getPegassAPI() + '/benevoles/' + requestPage + '/' + id + '?' + geoTypeRequest + '&page=' + page, {
                             method: "GET",
                             headers: ConnectStore.getHeaders(),
                         }).then(response => response.json())
                             .then(json => {
                                 this.benevoles = this.benevoles.concat(json.list);
                                 this.getEmails(json);
-                                this.emit("receive_recyclage");
+                                this.emit("receive_recyclage", {
+                                    pages: json.pages,
+                                });
                             });
                     }
                 }
-                this.emit("receive_recyclage_finish");
             });
     }
 
@@ -72,8 +75,11 @@ class CompetencesStore extends EventEmitter {
         }).then(response => response.json())
             .then(json => {
                 this.benevoles = this.benevoles.concat(json.list);
-                this.getEmails(json);
-                this.emit("receive_benevoles");
+                this.getEmails(json, 0);
+                this.emit("receive_benevoles", {
+                    pages: json.pages,
+                    current: 0,
+                });
                 if (json.pages !== 0) {
                     for (page = 1; page !== json.pages; page++) {
                         fetch('http://' + AppStore.getPegassAPI() + '/competences/' + type + '/' + id + '?ul=' + ConnectStore.getUl() + '&page=' + page, {
@@ -83,11 +89,12 @@ class CompetencesStore extends EventEmitter {
                             .then(json => {
                                 this.benevoles = this.benevoles.concat(json.list);
                                 this.getEmails(json);
-                                this.emit("receive_benevoles");
+                                this.emit("receive_benevoles", {
+                                    pages: json.pages,
+                                });
                             });
                     }
                 }
-                this.emit("receive_benevoles_finish");
             });
     }
 
@@ -106,8 +113,12 @@ class CompetencesStore extends EventEmitter {
                         }
                     }
                 }
-                this.emit("receive_benevoles");
-                this.emit("receive_recyclage");
+                this.emit("receive_benevoles_emails", {
+                    pages: struct_benevoles.pages,
+                });
+                this.emit("receive_recyclage_emails", {
+                    pages: struct_benevoles.pages,
+                });
             });
     }
 
@@ -127,7 +138,7 @@ class CompetencesStore extends EventEmitter {
     getListEmails() {
         var listEmails = '';
         for (var j = 0; j !== this.benevoles.length; j++) {
-            if(this.benevoles[j].email){
+            if (this.benevoles[j].email) {
                 listEmails += this.benevoles[j].email + '; ';
             }
         }

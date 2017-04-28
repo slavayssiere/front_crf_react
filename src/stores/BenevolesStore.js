@@ -22,7 +22,9 @@ class BenevolesStore extends EventEmitter {
             .then(json => {
                 this.benevoles = this.benevoles.concat(json.list);
                 this.getEmails(json);
-                this.emit("change");
+                this.emit("change", {
+                    pages: json.pages,
+                });
                 for (page = 1; page !== json.pages; page++) {
                     fetch('http://' + AppStore.getPegassAPI() + '/benevoles/all?ul=' + ConnectStore.getUl() + '&page=' + page, {
                         method: "GET",
@@ -31,10 +33,11 @@ class BenevolesStore extends EventEmitter {
                         .then(json => {
                             this.benevoles = this.benevoles.concat(json.list);
                             this.getEmails(json);
-                            this.emit("change");
+                            this.emit("change", {
+                                pages: json.pages,
+                            });
                         });
                 }
-                this.emit("change_finish");
             });
     }
 
@@ -53,7 +56,9 @@ class BenevolesStore extends EventEmitter {
                         }
                     }
                 }
-                this.emit("change");
+                this.emit("get_emails", {
+                    pages: struct_benevoles.pages,
+                });
             });
     }
 

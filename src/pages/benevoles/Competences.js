@@ -14,29 +14,25 @@ export default class Competences extends React.Component {
             open: false,
             listEmails: '',
             loading: false,
+            pages: 0,
+            nb_pages_receive: 0,
         }
         this.getComp = this.getComp.bind(this);
         this.getBen = this.getBen.bind(this);
-        this.finishLoad = this.finishLoad.bind(this);
+        this.getBenContact = this.getBenContact.bind(this);
     }
 
     componentWillMount() {
         CompetencesStore.on("get_competences", this.getComp);
         CompetencesStore.on("receive_benevoles", this.getBen);
-        CompetencesStore.on("receive_benevoles_finish", this.finishLoad);
+        CompetencesStore.on("receive_benevoles_emails", this.getBenContact);
         CompetencesStore.getCompetences();
     }
 
     componentWillUnmount() {
         CompetencesStore.removeListener("get_competences", this.getComp);
         CompetencesStore.removeListener("receive_benevoles", this.getBen);
-        CompetencesStore.removeListener("receive_benevoles_finish", this.finishLoad);
-    }
-
-    finishLoad() {
-        this.setState({
-            loading: false,
-        })
+        CompetencesStore.removeListener("receive_benevoles_emails", this.getBenContact);
     }
 
     getComp() {
@@ -47,10 +43,24 @@ export default class Competences extends React.Component {
         })
     }
 
-    getBen() {
+    getBen(data) {
         this.setState({
             benevoles: CompetencesStore.getAllBenevoles(),
         })
+    }
+
+    getBenContact(data) {
+        this.setState({
+            benevoles: CompetencesStore.getAllBenevoles(),
+            pages: data.pages,
+            nb_pages_receive: (this.state.nb_pages_receive + 1),
+        })
+
+        if (this.state.nb_pages_receive === this.state.pages) {
+            this.setState({
+                loading: false,
+            })
+        }
     }
 
     getEmails() {
@@ -65,6 +75,8 @@ export default class Competences extends React.Component {
         this.setState({
             open: false,
             loading: true,
+            pages: 0,
+            nb_pages_receive: 0,
         })
         var target = event.target;
         var value = target.value;
