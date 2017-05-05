@@ -2,6 +2,8 @@ import React from 'react';
 import { Panel, Col } from 'react-bootstrap';
 
 import AppStore from '../stores/AppStore';
+import vCard from 'vcards-js';
+import DownloadButton from './DownloadButton';
 
 export default class Footer extends React.Component {
   constructor() {
@@ -31,7 +33,27 @@ export default class Footer extends React.Component {
     })
   }
 
+  getVCard(){
+    let meCard = vCard();
+    meCard.firstName = 'Sébastien';
+    meCard.lastName = 'Lavayssière';
+    meCard.organization = 'Croix-Rouge française à Paris XI';
+    meCard.birthday = new Date('01-01-1903');
+    meCard.title = 'DLUSAF';
+    meCard.note = 'Nop';
+
+    console.log(meCard.getFormattedString());
+
+    return {
+      mime: 'text/vcard',
+      filename: 'format7511.vcard',
+      contents: meCard.getFormattedString(),
+    }
+
+  }
+
   render() {
+
     return (
       <footer>
         <Col xs={12} md={12}>
@@ -39,6 +61,9 @@ export default class Footer extends React.Component {
             <Col xs={8} xsOffset={2}><a href="https://github.com/slavayssiere/front_crf_react/" target="_blank"><b>Front version:</b>{this.state.front_version}</a></Col>
             <Col xs={8} xsOffset={2}><a href="https://github.com/slavayssiere/ws_pegass/" target="_blank"><b>API Pegass version:</b>{this.state.pegass_version}</a></Col>
             <Col xs={8} xsOffset={2}><a href="https://github.com/slavayssiere/ws_google_tools/" target="_blank"><b>API Google version:</b> {this.state.google_version}</a></Col>
+            <p>
+              <DownloadButton genFile={this.getVCard.bind(this)} downloadTitle="Download my vCard"/>
+            </p>
           </Panel>
         </Col>
       </footer>

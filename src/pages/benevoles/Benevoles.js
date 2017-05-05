@@ -94,6 +94,7 @@ export default class Benevoles extends React.Component {
                             <th>Exterieur</th>
                             <th>Email</th>
                             <th>Portable</th>
+                            <th>vCard</th>
                         </tr>
                     </thead>
                     <tbody>

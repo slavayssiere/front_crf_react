@@ -1,7 +1,10 @@
 import React from 'react';
 
+import { Button } from 'react-bootstrap';
 import BenevolesStore from '../stores/BenevolesStore';
 import ConnectStore from '../stores/ConnectStore';
+import DownloadButton from './DownloadButton';
+import vCard from 'vcards-js';
 
 export default class Benevole extends React.Component {
     constructor(props) {
@@ -32,6 +35,8 @@ export default class Benevole extends React.Component {
             portable,
             date: props.date,
             admin: props.admin,
+            date_naissance: props.date_naissance,
+            benevole_data: null,
         }
     }
 
@@ -80,6 +85,7 @@ export default class Benevole extends React.Component {
             nom: nextProps.nom,
             allow_email: nextProps.allow_email,
             allow_external: nextProps.allow_external,
+            benevole_data: nextProps.benevole_data,
         })
 
         if (nextProps.email) {
@@ -93,6 +99,32 @@ export default class Benevole extends React.Component {
                 portable: nextProps.portable,
             })
         }
+    }
+
+    getBenevoleData(){
+        BenevolesStore.getBenevoleData(this.state.id);
+    }
+
+    getVCard() {
+
+        console.log(this.state.benevole_data);
+
+        let meCard = vCard();
+        meCard.firstName = this.state.prenom;
+        meCard.lastName = this.state.nom;
+        meCard.organization = 'Croix-Rouge française à Paris XI';
+        meCard.birthday = new Date(this.state.date_naissance);
+        meCard.title = 'Benevole';
+        meCard.email = this.state.email;
+        meCard.cellPhone = this.state.portable;
+        meCard.note = "Nivol: " + this.state.id;
+
+        return {
+            mime: 'text/vcard',
+            filename: this.state.id + '.vcard',
+            contents: meCard.getFormattedString(),
+        }
+
     }
 
     render() {
@@ -115,10 +147,21 @@ export default class Benevole extends React.Component {
         }
 
         let DateElement = null;
-        if(this.state.date){
+        if (this.state.date) {
             DateElement = <td>{this.state.date}</td>
         }
 
+        let vCardButton = null;
+        if(this.state.benevole_data){
+            vCardButton = <td><DownloadButton
+                    async={false}
+                    genFile={this.getVCard.bind(this)}
+                    generateTitle={'Prepare'}
+                />
+                </td>
+        } else {
+            vCardButton = <td><Button onClick={this.getBenevoleData.bind(this)}>Prepare</Button></td>
+        }
 
         return (
             <tr>
@@ -130,6 +173,7 @@ export default class Benevole extends React.Component {
                 <td>{this.state.email}</td>
                 <td>{this.state.portable}</td>
                 {DateElement}
+                {vCardButton}
             </tr>
         );
     }

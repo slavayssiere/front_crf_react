@@ -13,6 +13,22 @@ class BenevolesStore extends EventEmitter {
         return this.benevoles;
     }
 
+    getBenevoleData(nivol) {
+        fetch('http://' + AppStore.getPegassAPI() + '/benevoles/' + nivol, {
+            method: "GET",
+            headers: ConnectStore.getHeaders(),
+        }).then(response => response.json())
+            .then(json => {
+                console.log(json);
+                for (var j = 0; j !== this.benevoles.length; j++) {
+                    if (json.id === this.benevoles[j].id) {
+                        this.benevoles[j].benevole_data = json;
+                    }
+                }
+                this.emit("change");
+            });
+    }
+
     getBenevoles() {
         var page = 0;
         fetch('http://' + AppStore.getPegassAPI() + '/benevoles/all?ul=' + ConnectStore.getUl() + '&page=' + page, {
