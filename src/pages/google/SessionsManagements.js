@@ -15,17 +15,20 @@ export default class SessionsManagements extends React.Component {
         }
         this.getEmails = this.getEmails.bind(this);
         this.getSession = this.getSession.bind(this);
+        this.loadingOn = this.loadingOn.bind(this);
     }
 
     componentWillMount() {
         GoogleStore.on("get_emails", this.getEmails);
         GoogleStore.on("get_session_selected", this.getSession);
+        GoogleStore.on("loading_on", this.loadingOn)
         GoogleStore.getEmailsList();
     }
 
     componentWillUnmount() {
         GoogleStore.removeListener("get_emails", this.getEmails);
         GoogleStore.removeListener("get_session_selected", this.getSession);
+        GoogleStore.removeListener("loading_on", this.loadingOn)
     }
 
     getEmails() {
@@ -39,6 +42,12 @@ export default class SessionsManagements extends React.Component {
         this.setState({
             session: GoogleStore.getSession(),
             loading: false,
+        })
+    }
+
+    loadingOn() {
+        this.setState({
+            loading: true,
         })
     }
 

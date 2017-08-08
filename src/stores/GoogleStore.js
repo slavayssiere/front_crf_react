@@ -141,6 +141,9 @@ class GoogleStore extends EventEmitter {
     }
 
     deleteRow(emailData) {
+        this.emails = [];
+        this.emit("get_emails");
+        this.emit("loading_on");
         fetch('http://' + AppStore.getGoogleAPI() + '/api/sheets/getemails/' + emailData.row + '?token=' + ConnectStore.getAccessToken(), {
             method: "DELETE",
             headers: ConnectStore.getHeaders(),
@@ -148,8 +151,6 @@ class GoogleStore extends EventEmitter {
             .then(this.checkStatus)
             .then(response => {
                 console.log(response);
-                this.emails = [];
-                this.emit("get_emails");
                 this.getEmailsList();
             })
             .catch(function (error) {
