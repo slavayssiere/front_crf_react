@@ -13,7 +13,7 @@ sed -i.bak s/VERSION_TAG/$version/g config.json
 
 cd ..
 
-aws s3 cp build s3://ul-management/ --recursive
+aws s3 cp build s3://ul-management/ --recursive --profile perso
 
 cd build/
 

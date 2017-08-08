@@ -148,9 +148,9 @@ class GoogleStore extends EventEmitter {
             .then(this.checkStatus)
             .then(response => {
                 console.log(response);
-                var index = this.emails.indexOf(emailData);
-                this.emails.splice(index, 1);
+                this.emails = [];
                 this.emit("get_emails");
+                this.getEmailsList();
             })
             .catch(function (error) {
                 console.log('request failed', error);
