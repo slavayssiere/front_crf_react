@@ -1,6 +1,6 @@
 {
   "name": "front-crf-react",
-  "version": "2.0.14",
+  "version": "2.0.15",
   "private": true,
   "dependencies": {
     "react": "^15.4.2",
