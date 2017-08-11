@@ -98,6 +98,39 @@ class CompetencesStore extends EventEmitter {
             });
     }
 
+    getBenevolesWithoutCompetence(type, id) {
+        var page = 0;
+        this.benevoles = [];
+        // /competences/:type/:competenceid/no
+        fetch('http://' + AppStore.getPegassAPI() + '/competences/' + type + '/' + id + '/no?ul=' + ConnectStore.getUl() + '&page=' + page, {
+            method: "GET",
+            headers: ConnectStore.getHeaders(),
+        }).then(response => response.json())
+            .then(json => {
+                this.benevoles = this.benevoles.concat(json.list);
+                this.getEmails(json, 0);
+                this.emit("receive_benevoles", {
+                    pages: json.pages,
+                    current: 0,
+                });
+                if (json.pages !== 0) {
+                    for (page = 1; page !== json.pages; page++) {
+                        fetch('http://' + AppStore.getPegassAPI() + '/competences/' + type + '/' + id + '/no?ul=' + ConnectStore.getUl() + '&page=' + page, {
+                            method: "GET",
+                            headers: ConnectStore.getHeaders(),
+                        }).then(response => response.json())
+                            .then(json => {
+                                this.benevoles = this.benevoles.concat(json.list);
+                                this.getEmails(json);
+                                this.emit("receive_benevoles", {
+                                    pages: json.pages,
+                                });
+                            });
+                    }
+                }
+            });
+    }
+
     getEmails(struct_benevoles) {
         fetch('http://' + AppStore.getPegassAPI() + '/benevoles/emails', {
             method: "POST",

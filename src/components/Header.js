@@ -44,6 +44,7 @@ export default class Header extends React.Component {
             MenuConnectPegass = <NavDropdown eventKey={1} title="Bénévoles" id="basic-nav-dropdown">
                             <MenuItem eventKey={1.1}><Link to="/benevoles">Liste</Link></MenuItem>
                             <MenuItem eventKey={1.2}><Link to="/competences">Compétences</Link></MenuItem>
+                            <MenuItem eventKey={1.2}><Link to="/nocompetences">Non-Compétence</Link></MenuItem>
                         </NavDropdown>;
             MenuRecyclage = <NavDropdown eventKey={2} title="Recyclage" id="basic-nav-dropdown">
                             <MenuItem eventKey={2.2}><Link to="/recyclageul">UL</Link></MenuItem>

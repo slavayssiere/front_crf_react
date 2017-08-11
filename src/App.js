@@ -16,6 +16,7 @@ import Test from './pages/Test';
 import NoMatch from './pages/NoMatch';
 import Benevoles from './pages/benevoles/Benevoles';
 import Competences from './pages/benevoles/Competences';
+import NoCompetences from './pages/benevoles/NoCompetences';
 import Recyclages from './pages/recyclages/Recyclages';
 import StatsFCs from './pages/stats/StatsFCs';
 import StatsFormations from './pages/stats/StatsFormations';
@@ -64,6 +65,7 @@ class App extends Component {
               <Route path="/test" component={Test} />
               <Route path="/benevoles" component={Benevoles} />
               <Route path="/competences" component={Competences} />
+              <Route path="/nocompetences" component={NoCompetences} />
               <Route path="/recyclageul" render={this.RecyclagesUL.bind(this)} />
               <Route path="/recyclagedd" render={this.RecyclagesDD.bind(this)} />
               <Route path="/statsfcs" component={StatsFCs} />
