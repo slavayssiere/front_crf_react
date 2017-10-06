@@ -189,6 +189,8 @@ class ConnectStore extends EventEmitter {
             'SAML': this.pegass.SAML,
             'JSESSIONID': this.pegass.JSESSIONID,
             'Authorization': 'Bearer ' + this.getAccessToken(),
+            'shibsession_name': this.pegass.SHIBSession.name,
+            'shibsession_value': this.pegass.SHIBSession.value,
         }
     }
 }
