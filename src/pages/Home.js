@@ -2,6 +2,8 @@ import React from "react";
 import {Jumbotron, Col, Panel } from "react-bootstrap";
 
 import ConnectStore from '../stores/ConnectStore';
+import PegassConnect from '../components/PegassConnect';
+import GoogleConnect from '../components/GoogleConnect';
 
 export default class Home extends React.Component {
     constructor() {
@@ -78,6 +80,10 @@ export default class Home extends React.Component {
                     <Jumbotron>
                         <h1>Bonjour !</h1>
                         <p>Pour commencer, connecte toi ci dessus avec ton login et password Pegass/Gaia.</p>
+                        <Panel header="Connexion">
+                            <PegassConnect />
+                            <GoogleConnect />
+                        </Panel>
                     </Jumbotron>
                 </Col>
             );
