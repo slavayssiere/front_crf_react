@@ -2,6 +2,7 @@ import React from "react";
 import { Col } from "react-bootstrap";
 import StatsStore from '../../stores/StatsStore';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import MDSpinner from 'react-md-spinner';
 
 export default class StatsMls extends React.Component {
     constructor() {
@@ -87,9 +88,14 @@ export default class StatsMls extends React.Component {
             </BootstrapTable>;
         }
 
-        var YearListComponent = [(new Date().getFullYear() - 1), (new Date().getFullYear()), (new Date().getFullYear() + 1)].map((year) => {
+        var YearListComponent = [(new Date().getFullYear() - 2), (new Date().getFullYear() - 1), (new Date().getFullYear())].map((year) => {
             return <option key={year} value={year}>{year}</option>;
         })
+
+        let Spinner = null;
+        if(this.state.loading){
+            Spinner = <p>Chargement...<MDSpinner /></p>;
+        }
 
         return (
             <Col xs={8} xsOffset={2}>
@@ -100,6 +106,8 @@ export default class StatsMls extends React.Component {
                         {YearListComponent}
                     </select>
                 </div>
+
+                {Spinner}
 
                 {NbMissions}
 
