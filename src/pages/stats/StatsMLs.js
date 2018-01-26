@@ -36,7 +36,8 @@ export default class StatsMls extends React.Component {
         const value = target.value;
         StatsStore.getMissionLocaleStats(Math.floor(value));
         this.setState({
-            year: Math.floor(value)
+            year: Math.floor(value),
+            loading: true,
         });
     }
 

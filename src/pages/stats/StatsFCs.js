@@ -59,7 +59,7 @@ export default class StatsFCs extends React.Component {
             </BootstrapTable>;
         }
 
-        var YearListComponent = [(new Date().getFullYear() - 1), (new Date().getFullYear()), (new Date().getFullYear() + 1)].map((year) => {
+        var YearListComponent = [(new Date().getFullYear() - 2), (new Date().getFullYear() -1), (new Date().getFullYear())].map((year) => {
             return <option key={year} value={year}>{year}</option>;
         })
 

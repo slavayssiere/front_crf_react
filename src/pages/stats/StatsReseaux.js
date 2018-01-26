@@ -36,7 +36,8 @@ export default class StatsReseaux extends React.Component {
         const value = target.value;
         StatsStore.getReseauxStats(Math.floor(value));
         this.setState({
-            year: Math.floor(value)
+            year: Math.floor(value),
+            loading: true,
         });
     }
 

@@ -36,7 +36,8 @@ export default class StatsMaraudes extends React.Component {
         const value = target.value;
         StatsStore.getMaraudesStats(Math.floor(value));
         this.setState({
-            year: Math.floor(value)
+            year: Math.floor(value),
+            loading: true,
         });
     }
 
