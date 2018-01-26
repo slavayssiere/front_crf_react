@@ -106,6 +106,7 @@ export default class SessionsManagements extends React.Component {
         this.setState({
             row: null,
             session: null,
+            loading: true,
         })
     }
 
@@ -114,6 +115,7 @@ export default class SessionsManagements extends React.Component {
         this.setState({
             row: null,
             session: null,
+            loading: true,
         })
     }
     
