@@ -51,7 +51,7 @@ export default class StatsMls extends React.Component {
 
         if (this.state.missions) {
 
-            NbMissions = <h3>Nombre de missions: {this.state.missions.nb_mission}</h3>;
+            NbMissions = <h3>Nombre de missions: {this.state.missions.nb_mission}</h3>
 
             ListCI = <BootstrapTable data={this.state.missions.ci}>
                 <TableHeaderColumn dataField='id' isKey={true}>Nivol</TableHeaderColumn>
