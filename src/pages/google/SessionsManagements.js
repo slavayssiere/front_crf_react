@@ -131,19 +131,25 @@ export default class SessionsManagements extends React.Component {
 
         let ListEmails = null;
         if (this.state.emails) {
-            ListEmails = <BootstrapTable data={this.state.emails}>
-                <TableHeaderColumn dataFormat={this.selectFormatter.bind(this)}>Selectionner</TableHeaderColumn>
-                <TableHeaderColumn dataFormat={this.deleteFormatter.bind(this)}>Supprimer la ligne</TableHeaderColumn>
-                <TableHeaderColumn dataFormat={this.emailFormatter.bind(this)}>Préparer un email</TableHeaderColumn>
-                <TableHeaderColumn dataField='row' isKey={true}>Ligne</TableHeaderColumn>
-                <TableHeaderColumn dataField='dateFormation' dataSort={true} dataFormat={this.dateFormatter.bind(this)}>Date</TableHeaderColumn>
-                <TableHeaderColumn dataField='typeFormation'>Type</TableHeaderColumn>
-                <TableHeaderColumn dataField='message'>Message</TableHeaderColumn>
-                <TableHeaderColumn dataField='civilite'>Civilite</TableHeaderColumn>
-                <TableHeaderColumn dataField='prenom'>Prenom</TableHeaderColumn>
-                <TableHeaderColumn dataField='nom'>Nom</TableHeaderColumn>
-                <TableHeaderColumn dataField='email'>Email</TableHeaderColumn>
-            </BootstrapTable>;
+            if(this.state.loading){
+                ListEmails = <Panel>
+                    {Spinner}
+                </Panel>
+            } else {
+                ListEmails = <BootstrapTable data={this.state.emails}>
+                    <TableHeaderColumn dataFormat={this.selectFormatter.bind(this)}>Selectionner</TableHeaderColumn>
+                    <TableHeaderColumn dataFormat={this.deleteFormatter.bind(this)}>Supprimer la ligne</TableHeaderColumn>
+                    <TableHeaderColumn dataFormat={this.emailFormatter.bind(this)}>Préparer un email</TableHeaderColumn>
+                    <TableHeaderColumn dataField='row' isKey={true}>Ligne</TableHeaderColumn>
+                    <TableHeaderColumn dataField='dateFormation' dataSort={true} dataFormat={this.dateFormatter.bind(this)}>Date</TableHeaderColumn>
+                    <TableHeaderColumn dataField='typeFormation'>Type</TableHeaderColumn>
+                    <TableHeaderColumn dataField='message'>Message</TableHeaderColumn>
+                    <TableHeaderColumn dataField='civilite'>Civilite</TableHeaderColumn>
+                    <TableHeaderColumn dataField='prenom'>Prenom</TableHeaderColumn>
+                    <TableHeaderColumn dataField='nom'>Nom</TableHeaderColumn>
+                    <TableHeaderColumn dataField='email'>Email</TableHeaderColumn>
+                </BootstrapTable>;
+            }
         }
         else {
             ListEmails = <Panel>
