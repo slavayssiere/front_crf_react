@@ -3,6 +3,7 @@
   "version": "2.0.23",
   "private": true,
   "dependencies": {
+    "prop-types": "^15.6.0",
     "react": "^15.4.2",
     "react-bootstrap": "^0.30.8",
     "react-bootstrap-date-picker": "^5.0.1",
@@ -19,7 +20,7 @@
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
-    "react-scripts": "0.9.5"
+    "react-scripts": "1.1.0"
   },
   "scripts": {
     "start": "react-scripts start",

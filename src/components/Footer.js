@@ -57,9 +57,9 @@ export default class Footer extends React.Component {
       <footer>
         <Col xs={12} md={12}>
           <Panel>
-            <Col xs={8} xsOffset={2}><a href="https://github.com/slavayssiere/front_crf_react/" target="_blank"><b>Front version:</b>{this.state.front_version}</a></Col>
-            <Col xs={8} xsOffset={2}><a href="https://github.com/slavayssiere/ws_pegass/" target="_blank"><b>API Pegass version:</b>{this.state.pegass_version}</a></Col>
-            <Col xs={8} xsOffset={2}><a href="https://github.com/slavayssiere/ws_google_tools/" target="_blank"><b>API Google version:</b> {this.state.google_version}</a></Col>
+            <Col xs={8} xsOffset={2}><a href="https://github.com/slavayssiere/front_crf_react/" rel="noopener noreferrer" target="_blank"><b>Front version:</b>{this.state.front_version}</a></Col>
+            <Col xs={8} xsOffset={2}><a href="https://github.com/slavayssiere/ws_pegass/" rel="noopener noreferrer" target="_blank"><b>API Pegass version:</b>{this.state.pegass_version}</a></Col>
+            <Col xs={8} xsOffset={2}><a href="https://github.com/slavayssiere/ws_google_tools/" rel="noopener noreferrer" target="_blank"><b>API Google version:</b> {this.state.google_version}</a></Col>
           </Panel>
         </Col>
       </footer>

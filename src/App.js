@@ -56,7 +56,7 @@ class App extends Component {
 
   render() {
     return (
-      <Router history={history}>
+      <Router history={window.history}>
         <TrackPageView>
           <div>
             <Header />
