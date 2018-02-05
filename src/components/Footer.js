@@ -3,7 +3,6 @@ import { Panel, Col } from 'react-bootstrap';
 
 import AppStore from '../stores/AppStore';
 import vCard from 'vcards-js';
-import DownloadButton from './DownloadButton';
 
 export default class Footer extends React.Component {
   constructor() {
