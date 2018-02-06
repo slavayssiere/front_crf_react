@@ -1,5 +1,5 @@
 {
-    "url_ws_pegass": "146.148.11.124:31080/v1",
-    "url_ws_google": "146.148.11.124:31500",
+    "url_ws_pegass": "35.205.194.168:31080/v1",
+    "url_ws_google": "35.205.194.168:31500",
     "version": "VERSION_TAG"
 }
